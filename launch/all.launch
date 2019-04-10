@@ -1,0 +1,11 @@
+<launch>
+    <!-- <node pkg="rqt_gui" name="rqt_gui" type="rqt_gui"></node> -->
+
+    <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
+    <!-- <include file="$(find comp5)/launch/3dsensor.launch"/> -->
+    <include file="$(find comp5)/launch/cam_bottom.launch"/>
+    <!-- Launches rviz, map server, move base -->
+    <include file="$(find comp5)/launch/amcl_demo_sim.launch"/>
+    <include file="$(find comp5)/launch/marker_track.launch"/>
+    
+</launch>

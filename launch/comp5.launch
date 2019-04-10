@@ -1,0 +1,7 @@
+<launch>
+  <arg name="rp" default="0"/>
+  <node respawn="false" pkg="comp5"
+        type="comp5.py" name="comp5" output="screen">
+    <param name="rp" type="int" value="$(arg rp)" />
+  </node>
+</launch>
