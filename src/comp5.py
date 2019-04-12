@@ -31,7 +31,7 @@ shape_id
 '''
 global shape_id_counts, object_counts, chosen_shape
 chosen_shape = "circle"
-stop_count = 3 # stop count 2 is the box
+stop_count = 0 # stop count 2 is the box
 
 shape_id_counts = {
     "task2": numpy.asarray([0, 0, 0]),
@@ -160,6 +160,9 @@ def display_led(count):
     elif count == 4:
         led_pub1.publish(Led(Led.ORANGE))
         led_pub2.publish(Led(Led.GREEN))
+    elif count == 5:
+        led_pub1.publish(Led(Led.GREEN))
+        led_pub2.publish(Led(Led.RED))
 
 def detect_1(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -394,7 +397,7 @@ class Stop(smach.State):
         global stop, cmd_vel_pub, stop_count, sound_pub
         stop_count += 1
         # go a bit further
-        wait_time = rospy.Time.now() + rospy.Duration(1)
+        wait_time = rospy.Time.now() + rospy.Duration(0.5)
         while rospy.Time.now()<wait_time:
             display_led(0)
             self.twist.linear.x = 0.25
@@ -402,20 +405,22 @@ class Stop(smach.State):
             cmd_vel_pub.publish(self.twist)
         # determin which it is
         print stop_count
-        if stop_count in [1]:
-            return 'go'
-        elif stop_count == 2:
-            print "task 4"
-            return 'task4'
-        elif stop_count >= 3:
-            print "task 3"
-            stop_count = -1
-            return 'go'
-        elif stop_count == 0:
+        if stop_count == 1:
             wait_time = rospy.Time.now() + rospy.Duration(0.5)
             while rospy.Time.now() < wait_time:
                 sound_pub.publish(Sound(0))
                 display_led(4)
+            return 'go'
+        elif stop_count == 2:
+            return 'go'
+        elif stop_count == 3:
+            print "task 4"
+            return 'task4'
+        elif stop_count >= 4:
+            print "task 3"
+            stop_count = 0
+            return 'go'
+        elif stop_count == 0:
             return 'go'
         '''
         elif stop_count == 3:
@@ -571,7 +576,7 @@ waypoints = [  # <1>
 
 
 waypoints_ar_tag = [
-    [(3.9601,  0.6277, 0.0), (0.0, 0.0, -0.457517057285,  0.889200844744)], # 1
+    [(3.9601,  0.6277, 0.0), (0.0, 0.0, -0.437517057285,  0.879200844744)], # 1
     [(3.34565406796, 0.317120621532, 0.0), (0.0, 0.0, -0.424949894771, 0.905216872873)], # 2
     [(2.61783739719, -0.207863738387, 0.0), (0.0, 0.0, -0.444548762973, 0.882151229937)], # 3
     [(1.84595498828, -0.46846898786, 0.0), (0.0, 0.0, -0.447863428489, 0.885463306889)], # 4
@@ -708,7 +713,7 @@ class Task4(smach.State):
                 break
 
             goal = goal_pose(pose)
-
+            
             client.send_goal(goal)
             client.wait_for_result()
             current_marker_pose = None
@@ -717,7 +722,7 @@ class Task4(smach.State):
             if current_marker_pose is not None: # ar tag found
                 if current_marker_id == 1:
                     box_pos = index
-                elif current_marker_id == 2:
+                elif (current_marker_id == 2) or (current_marker_id == 3):
                     stand_pos = index
 
                 if current_marker_pose:
@@ -732,6 +737,7 @@ class Task4(smach.State):
                     elif (current_marker_id == 2) or (current_marker_id == 3):
                         sound_pub.publish(Sound(0))
                         display_led(1)
+            # raw_input()
 
         if (box_pos is not None) and (stand_pos is not None):
             difference = box_pos - stand_pos
@@ -777,7 +783,7 @@ class Task4(smach.State):
             while rospy.Time.now() < wait_time:
                 cmd_vel_pub.publish(twist)
                 sound_pub.publish(Sound(0))
-                display_led(1)
+                display_led(5)
             
         # go to end
         goal = goal_pose(waypoints[8])

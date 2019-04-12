@@ -3,7 +3,7 @@
         type="cv_camera_node" name="cv_camera" >
     <param name="rate" type="double" value="30" />
     <param name="frame_id" value="front_camera" />
-    <param name="device_id" value="1" />
+    <param name="device_id" value="0" />
 
     <remap from="/cv_camera/image_raw" to="/bottom/rgb/image_raw" />
   </node>
