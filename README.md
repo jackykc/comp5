@@ -155,8 +155,10 @@ With each task being worth different points, the goal was to maximize the total 
   1. Check each spot and signal for an ARTag on box and behind the parking spot
       * If /ar_pose_marker is publishing an AR tag at current parking spot, we have found the ARTag
       * If the id's of the markers for both the box and the stand has been found, (2 or for the stand, 1 for the box), stop searching
-  1. Go to the side of the box farthest from the spot to push to
-  1. Push the box the correct parking spot
+  1. Go the left or right of the parking spot infront of the box, based on the push direction 
+  1. Go foward to the parking spot beside the box and orient robot for a foward push toward ar tag parking spot
+  1. Push the box to ar tag parking spot
+  1. Exit location four and head to finish line
 * Repeat until 10 minutes run out
   
 ### Code explanations
