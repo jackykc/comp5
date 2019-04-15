@@ -1,6 +1,6 @@
 # Jacky Chung and Yi Zhang
 ## Purpose
-In this competition we demonstrate how to do box pushing using turtlebot, and we also used techniques from previous competitions, including ARTag recognition, mapping, navigation, and an additional webcam for line following. A majority of this is the same from [competition 3](https://github.com/jackykc/comp3/blob/master/README.md). The new task introduced is to push a box with ARTag into a parking spot marked by a different ARTag.
+In this competition we demonstrate how to do box pushing using the turtlebot, we also used techniques from previous competitions, including ARTag recognition, mapping, navigation, and an additional webcam for line following. A majority of this is the same from [competition 3](https://github.com/jackykc/comp3/blob/master/README.md). The new task introduced is to push a box with ARTag into a parking spot marked by a different ARTag.
 
 ## Prerequisites
 * Kobuki Turtlebot with an Asus Xtion Pro and a usb camera
@@ -17,17 +17,17 @@ In this competition we demonstrate how to do box pushing using turtlebot, and we
   sudo apt-get install ros-kinetic-navigation
   ```
 ## Resources used
-HSV Thresholding
+HSV Thresholding (From Competition 2/3)
 https://docs.opencv.org/3.1.0/df/d9d/tutorial_py_colorspaces.html
 
-Contour Detection
+Contour Detection (From Competition 2/3)
 https://docs.opencv.org/3.1.0/dd/d49/tutorial_py_contour_features.html
 
 AR Tracking 
 http://wiki.ros.org/ar_track_alvar
 
 ## Execution:
-[Setup of the robot is located at the bottom of the README](https://github.com/jackykc/comp5/blob/master/README.md#setting-up-the-robot)
+[Physical setup of the robot is located at the bottom of the README](https://github.com/jackykc/comp5/blob/master/README.md#setting-up-the-robot)
 1. Build and source setup.bash
    ```
    (In catkin_ws directory after cloning repo into catkin_ws/src)
@@ -35,14 +35,14 @@ http://wiki.ros.org/ar_track_alvar
    source ./devel/setup.bash
    ```
 1. Connect to the Kobuki, Asus Xtion Pro and usb camera
-1. Place Kobuki on race track with usb camera looking at the track
+1. Place Kobuki on race track with usb camera looking at the track, facing downwards
 1. Startup all required nodes
    `roslaunch comp5 all.launch (will launch the below nodes)`
    * kobuki base
    * amcl, map server, move base
    * ar_track_alvar
    `roslaunch comp5 3dsensor.launch (launch the 3d sensors separately due to connection issues)`
-   `roslaunch comp5 cam_bottom.launch device_id=${} (use the device id to set the usb camera)`
+   `roslaunch comp5 cam_bottom.launch device_id:=${} (use the device id to set the usb camera)`
 1. Start the competition five node `roslaunch comp5 comp5.launch`
 
 ## Concepts and code
@@ -50,7 +50,7 @@ http://wiki.ros.org/ar_track_alvar
 * State Machine
 ![alt text](https://raw.githubusercontent.com/jackykc/comp3/master/comp3sm.png)
 
-The state machine for competition four is as shown in the above. For competition five, although the states for tasks one, two, and three exists in the state machine, we never get into those states. Competition five only enter the states 'GO', 'STOP', and 'TASK4'
+The state machine for competition four is as shown in the above. For competition five, although the states for 'TASK1', 'TASK2', and 'TASK3' exists in the state machine, we never get into those states. Competition five only enter the states 'GO', 'STOP', and 'TASK4'
 
 ## Competition Four
 ```
@@ -59,7 +59,7 @@ The state machine for competition four is as shown in the above. For competition
    the number of stops it has seen
 3. After stopping, it will then move onto one of the four tasks
    or the finish state after the last red line has been seen
-4. Task four occurs before task 3.
+4. Task four occurs before task three.
 ```
 (With the exception of Task 4, the rest are kept the [same](https://github.com/jackykc/comp3/blob/master/README.md))
 * GO (Line Tracking)
@@ -108,8 +108,8 @@ for index, pose in enumerate(waypoints_color):
     client.send_goal(goal)
     client.wait_for_result()
 
-    is_shape = False
     # reset the shape of the current parking spot
+    is_shape = False
     shape_id_counts["task4"][0] = 0
     shape_id_counts["task4"][1] = 0
     shape_id_counts["task4"][2] = 0
@@ -184,7 +184,7 @@ for index, pose in enumerate(waypoints_ar_tag):
 if (box_pos is not None) and (stand_pos is not None):
     difference = box_pos - stand_pos
     # negative difference means that the box is to the left
-    # use the correct list of waypoints that orients the robot facing the push direction
+    # set the correct list of waypoints that orients the robot facing the push direction
     if difference < 0:
         push_from_pos = box_pos - 1
         temp_waypoints = waypoints_left
