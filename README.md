@@ -218,7 +218,7 @@ if (box_pos is not None) and (stand_pos is not None):
         cmd_vel_pub.publish(twist)
 
 ```
-Video:
+## Video:
 https://youtu.be/mtUz5HRYZk0
 
 ## Setting up the robot
