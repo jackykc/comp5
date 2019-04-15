@@ -41,7 +41,9 @@ http://wiki.ros.org/ar_track_alvar
    * kobuki base
    * amcl, map server, move base
    * ar_track_alvar
+   
    `roslaunch comp5 3dsensor.launch (launch the 3d sensors separately due to connection issues)`
+   
    `roslaunch comp5 cam_bottom.launch device_id:=${} (use the device id to set the usb camera)`
 1. Start the competition five node `roslaunch comp5 comp5.launch`
 
