@@ -1,9 +1,11 @@
 <launch>
+  <arg name="device_id" default="1"/>
+
   <node respawn="true" pkg="cv_camera"
         type="cv_camera_node" name="cv_camera" >
     <param name="rate" type="double" value="30" />
     <param name="frame_id" value="front_camera" />
-    <param name="device_id" value="0" />
+    <param name="device_id" value="$(arg device_id)" />
 
     <remap from="/cv_camera/image_raw" to="/bottom/rgb/image_raw" />
   </node>
