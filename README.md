@@ -27,6 +27,7 @@ AR Tracking
 http://wiki.ros.org/ar_track_alvar
 
 ## Execution:
+[Setup of the robot is located at the bottom of the README](https://github.com/jackykc/comp5/blob/master/README.md#setting-up-the-robot)
 1. Build and source setup.bash
    ```
    (In catkin_ws directory after cloning repo into catkin_ws/src)
@@ -38,10 +39,10 @@ http://wiki.ros.org/ar_track_alvar
 1. Startup all required nodes
    `roslaunch comp5 all.launch (will launch the below nodes)`
    * kobuki base
-   * bottom camera
    * amcl, map server, move base
    * ar_track_alvar
    `roslaunch comp5 3dsensor.launch (launch the 3d sensors separately due to connection issues)`
+   `roslaunch comp5 cam_bottom.launch device_id=${} (use the device id to set the usb camera)`
 1. Start the competition five node `roslaunch comp5 comp5.launch`
 
 ## Concepts and code
@@ -92,7 +93,7 @@ The state machine for competition four is as shown in the above. For competition
       * For competition four, box pushing was not run
 
 # Code explanations (Only task four differs)
-[Competition Two code explanations included here for the tasks one, two, and three ](https://github.com/jackykc/comp2/blob/master/README.md#code-explanations)
+[Competition Two code explanations included here for the tasks one, two, and three](https://github.com/jackykc/comp2/blob/master/README.md#code-explanations)
 
 [Competition Three code explanations included here for the color detection of task four]
 (https://github.com/jackykc/comp3#code-explanations-only-task-four-differs)
@@ -212,8 +213,25 @@ if (box_pos is not None) and (stand_pos is not None):
 
 ```
 Video:
-https://www.youtube.com/watch?v=SQwM5Pcp4Fw&feature=youtu.be
+https://youtu.be/mtUz5HRYZk0
 
+## Setting up the robot
+1. Starting from the bottom, attach four 50mm poles to the middle plate and the base
+1. Attach four 203mm poles onto the middle plate.
+1. Attach four 50mm, one onto each of the 203mm poles to extend their length
+1. Attach the 3D sensor pole as well as the Asus Xtion Pro plate and XtionPro near the back of the robot facing fowards
+1. Attach the top plate ontop of the 203+50mm poles, with the large openning for wires to go through towards the front of the robot
+1. Put the box pushing foam between the middle plate and the base infront of the robot. Use tape if the foam position changes when moving the robot.
+1. Mount the usb camera on the top plate as shown in photos, use tape to keep it secure. The camera view should be facing down, just above the point where it cannot see the foam. Use `roslaunch comp5 cam_bottom.launch device_id=${} (use the device id to set the usb camera)` and `rqt` to check the image
+1. Place you laptop on the top plate, securing with a seatbelt and plugging in the usb's.
 
+For placement of the poles, foam, and XtionPro:
+* [Left side view](https://raw.githubusercontent.com/jackykc/comp5/master/resource/a.jpg)
+* [Right side view](https://raw.githubusercontent.com/jackykc/comp5/master/resource/d.jpg)
+* [Front view](https://raw.githubusercontent.com/jackykc/comp5/master/resource/b.jpg)
+* [Back view](https://raw.githubusercontent.com/jackykc/comp5/master/resource/c.jpg)
 
+For placement of the usb camera:
+* [Side](https://raw.githubusercontent.com/jackykc/comp5/master/resource/e.jpg)
+* [Under](https://raw.githubusercontent.com/jackykc/comp5/master/resource/f.jpg)
 
