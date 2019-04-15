@@ -94,7 +94,7 @@ The state machine for competition four is as shown in the above. For competition
       * Use same method from task 3 to find the parking spot with the correct shape
       * For competition four, box pushing was not run
 
-# Code explanations (Only task four differs)
+### Code explanations (Only task four differs)
 [Competition Two code explanations included here for the tasks one, two, and three](https://github.com/jackykc/comp2/blob/master/README.md#code-explanations)
 
 [Competition Three code explanations included here for the color detection of task four]
@@ -157,7 +157,9 @@ With each task being worth different points, the goal was to maximize the total 
       * If the id's of the markers for both the box and the stand has been found, (2 or for the stand, 1 for the box), stop searching
   1. Go to the side of the box farthest from the spot to push to
   1. Push the box the correct parking spot
+* Repeat until 10 minutes run out
   
+### Code explanations
 Once we waypoint into the [middle of location four using waypoint](https://github.com/jackykc/comp5/blob/master/src/comp5.py#L677), we start the [box pushing task]((https://github.com/jackykc/comp5/blob/master/src/comp5.py#L709))
 ``` python
 # go through each waypoint right infront of parking spot, facing ar tags
